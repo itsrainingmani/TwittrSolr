@@ -24,10 +24,14 @@ try:
 		if (i > num_tweets):
 			break
 		#print '@%s tweeted: %s' %(tweet['user']['screen_name'], tweet['text'])
-		if (lang == 'ru'):
-			target_file.write(str(tweet).encode('utf-8') + '\n')
-		else:
-			target_file.write(str(tweet) + '\n')
+		#if (lang == 'ru'):
+		#	target_file.write(str(tweet).decode('KOI8-R') + '\n')
+		#else:
+		print type(tweet['text'])
+		lol = tweet['text'].encode('KOI8-R', 'strict')
+		print  lol + '\n'
+		#target_file.write(str(tweet) + '\n')
+		target_file.write(tweet['text'].encode('KOI8-R', 'strict') + '\n')
 		target_file.flush()
 		i = i+1
 
