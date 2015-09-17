@@ -10,7 +10,7 @@ twitter = Twython(APP_KEY, access_token = ACCESS_TOKEN)
 tag = raw_input("Enter the term to search for-->")
 results = twitter.cursor(twitter.search, q=tag)
 
-target = open("TwittrSolrData.txt", 'w')
+target = open("TwittrSolrData.txt", 'a')
 #target = open("TwittrSolrData.txt", 'a') For appending to the file
 
 #number_of_tweets = raw_input("Enter the number of tweets that you want to collect-->")
@@ -26,7 +26,7 @@ for result in results:
     i = i+1
     if (i > 4):
 		break
-    
+
 #print "File has been written to"
 twitter.disconnect()
 target.close()

@@ -1,4 +1,5 @@
 from TwitterSearch import *
+import codecs
 
 try:
 	hashtag = raw_input("Enter the keyword-->")
@@ -8,13 +9,13 @@ try:
 	tso = TwitterSearchOrder()
 	tso.set_keywords([hashtag])
 	tso.set_language(lang)
-	tso.set_include_entities(False)
+	tso.set_include_entities(True)
 	if (lang == "en"):
 		target_file = open('english.txt', 'w')
 	elif (lang == 'de'):
 		target_file = open('germantweets.txt', 'a')
 	elif (lang == 'ru'):
-		target_file = open('russiantweets.txt', 'a')
+		target_file = codecs.open('russiantweets.txt', 'a', encoding='utf-8')
 
 	print "Authenticating"
 	ts = TwitterSearch(consumer_key = 'h0rZYPs6iDq4orLJzBLJ0iFYl', consumer_secret = 'y6A4U5QsfdIRzbbUNY493d696BmSVZdb4NPHRvPNp8jFpzduI4',access_token = '3414398440-4mTyg8QLeBuovdW8ZoOQYJOhAPmMjPynfi927HQ',access_token_secret = 'oeoXapgN6EUnUYm7Ee0ZbvddXdMLFImoany0tEmm8Xwhy')
@@ -24,9 +25,9 @@ try:
 	for tweet in ts.search_tweets_iterable(tso):
 		if (i > num_tweets):
 			break
-		#target_file.write(str(tweet) + '/n')
-		print tweet['user']
-		#print str(tweet['id']) + "|" + str(tweet['lang']) + "|" + tweet['text'] + "|" + str(tweet['statuses']['created_at'])
+		target_file.write(tweet['text'])
+		print tweet['text']
+		#print tweet['statuses']['created_at']
 		#target_file.flush()
 		i = i+1
 	print "All snazziness complete"
