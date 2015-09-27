@@ -8,14 +8,13 @@ num = raw_input("Number of search terms-->")
 results = api.GetSearch(term = inp, lang = tlang, count = num, include_entities=True)
 
 if (tlang == "en"):
-    target_file = open('english.txt', 'a')
+    target_file = open('newEnglish.json', 'a')
 elif (tlang == 'de'):
-    target_file = io.open('german.txt', 'a', encoding='utf-8')
+    target_file = io.open('newGerman.json', 'a', encoding='utf-8')
 elif (tlang == 'ru'):
-    target_file = io.open('russian.txt','a', encoding='utf-8')
+    target_file = io.open('newRussian.json','a', encoding='utf-8')
 
 data = {}
-
 for tweet in results:
     data['id'] = str(tweet.id)
     data['text'] = tweet.text
@@ -24,18 +23,19 @@ for tweet in results:
     fmt = "%Y-%m-%d %H:%M:%S"
     temp = datetime.datetime.strptime(date, '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
     #print str(temp).replace("+00:00", "")
-    data['created_at'] = str(temp).replace("+00:00", "")
+    temp = str(temp).replace("+00:00", "")
+    temp = str(temp).replace(" ", "T")
+    data['created_at'] = temp + "Z"
     hashtag = []
     for i in tweet.hashtags:
         hashtag.append(i.text)
-    data['twitter_hashtags'] = hashtag
+    data['tweet_hashtags'] = hashtag
     urlz = []
     for j in tweet.urls:
         urlz.append(j.url)
-    data['twitter_urls'] = urlz
+    data['tweet_urls'] = urlz
     if (tlang != 'en'):
-        target_file.write(unicode(json.dumps(data, ensure_ascii=False)) + '\n')
+        target_file.write(unicode(json.dumps(data, ensure_ascii=False)) + ',' + '\n')
     else:
         target_file.write(str(data) + '\n')
-
 target_file.close()
